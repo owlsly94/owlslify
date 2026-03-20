@@ -105,3 +105,23 @@ owlslify/
 
 ---
 
+## Adding a new menu item
+
+Open `modules/menu.c` and use the macros inside any `build_*` function:
+
+```c
+/* Run a script or shell command */
+SCRIPT(c,
+    "My new item",
+    "Description shown in the bottom panel",
+    "sudo pacman -S --needed --noconfirm mypackage");
+
+/* Pull a dotfile folder */
+DOTFOLDER(c, "Dotfiles → myapp", "Pull ~/.config/myapp", "myapp");
+
+/* Pull a single file */
+DOTFILE(c, "Dotfiles → myfile",  "Pull myfile to ~/.config/",
+    DOTFILES_RAW "/.config/myfile", "~/.config/myfile");
+```
+
+Then `make` to rebuild — no other files need to change.
