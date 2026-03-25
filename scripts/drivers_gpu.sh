@@ -17,16 +17,10 @@ case "$GPU" in
             sudo pacman -Sy
         fi
 
-        # Use mesa-tkg-git from Chaotic-AUR if available, else mesa
-        if grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
-            sudo pacman -S --needed --noconfirm --ask 4 \
-                mesa-tkg-git \
-                lib32-mesa-tkg-git
-        else
-            sudo pacman -S --needed --noconfirm \
-                mesa \
-                lib32-mesa
-        fi
+        echo "==> Installing stable Mesa..."
+        sudo pacman -S --needed --noconfirm \
+            mesa mesa-utils lib32-mesa \
+            vulkan-radeon lib32-vulkan-radeon
 
         sudo pacman -S --needed --noconfirm \
             xf86-video-amdgpu \
@@ -35,16 +29,6 @@ case "$GPU" in
             lib32-libva-mesa-driver \
             vdpauinfo \
             radeontop
-
-        # vulkan-radeon conflicts with mesa-tkg-git (which already includes RADV).
-        # Only install it if mesa-tkg-git is NOT present.
-        if ! pacman -Q mesa-tkg-git &>/dev/null; then
-            sudo pacman -S --needed --noconfirm \
-                vulkan-radeon \
-                lib32-vulkan-radeon
-        else
-            echo "==> mesa-tkg-git detected — skipping vulkan-radeon (already included)"
-        fi
 
         # ROCm for compute / GPGPU
         if command -v yay &>/dev/null; then
@@ -58,7 +42,7 @@ case "$GPU" in
         # /etc/environment for AMD
         echo "==> Writing AMD /etc/environment..."
         [ -f /etc/environment ] && sudo cp /etc/environment /etc/environment.backup
-        sudo tee /etc/environment > /dev/null <<'EOF'
+        sudo tee /etc/environment > /dev/null <<'ENVEOF'
 AMD_VULKAN_ICD=RADV
 RADV_PERFTEST=gpl,transfer_queue
 LIBVA_DRIVER_NAME=radeonsi
@@ -69,7 +53,7 @@ MOZ_ENABLE_WAYLAND=1
 ELECTRON_OZONE_PLATFORM_HINT=wayland
 QT_QPA_PLATFORM=wayland
 SDL_VIDEODRIVER=wayland
-EOF
+ENVEOF
         ;;
 
     # ---------------------------------------------------------------- #
@@ -92,17 +76,15 @@ EOF
             lib32-vulkan-icd-loader \
             libva-utils
 
-        # Add nvidia_drm.modeset=1 to kernel params
         if command -v grub-mkconfig &>/dev/null; then
             sudo sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 nvidia_drm.modeset=1"/' \
                 /etc/default/grub
             sudo grub-mkconfig -o /boot/grub/grub.cfg
         fi
 
-        # /etc/environment for Nvidia + Wayland
         echo "==> Writing Nvidia /etc/environment..."
         [ -f /etc/environment ] && sudo cp /etc/environment /etc/environment.backup
-        sudo tee /etc/environment > /dev/null <<'EOF'
+        sudo tee /etc/environment > /dev/null <<'ENVEOF'
 LIBVA_DRIVER_NAME=nvidia
 MOZ_ENABLE_WAYLAND=1
 ELECTRON_OZONE_PLATFORM_HINT=wayland
@@ -110,7 +92,7 @@ QT_QPA_PLATFORM=wayland
 SDL_VIDEODRIVER=wayland
 GBM_BACKEND=nvidia-drm
 __GLX_VENDOR_LIBRARY_NAME=nvidia
-EOF
+ENVEOF
         ;;
 
     # ---------------------------------------------------------------- #
@@ -139,7 +121,7 @@ EOF
         fi
 
         [ -f /etc/environment ] && sudo cp /etc/environment /etc/environment.backup
-        sudo tee /etc/environment > /dev/null <<'EOF'
+        sudo tee /etc/environment > /dev/null <<'ENVEOF'
 LIBVA_DRIVER_NAME=nvidia
 MOZ_ENABLE_WAYLAND=1
 ELECTRON_OZONE_PLATFORM_HINT=wayland
@@ -147,7 +129,7 @@ QT_QPA_PLATFORM=wayland
 SDL_VIDEODRIVER=wayland
 GBM_BACKEND=nvidia-drm
 __GLX_VENDOR_LIBRARY_NAME=nvidia
-EOF
+ENVEOF
         ;;
 
     # ---------------------------------------------------------------- #
@@ -163,21 +145,19 @@ EOF
 
         sudo pacman -S --needed --noconfirm \
             xf86-video-intel \
-            mesa \
-            lib32-mesa \
-            vulkan-intel \
-            lib32-vulkan-intel \
+            mesa mesa-utils lib32-mesa \
+            vulkan-intel lib32-vulkan-intel \
             intel-media-driver \
             libva-utils
 
         [ -f /etc/environment ] && sudo cp /etc/environment /etc/environment.backup
-        sudo tee /etc/environment > /dev/null <<'EOF'
+        sudo tee /etc/environment > /dev/null <<'ENVEOF'
 LIBVA_DRIVER_NAME=iHD
 MOZ_ENABLE_WAYLAND=1
 ELECTRON_OZONE_PLATFORM_HINT=wayland
 QT_QPA_PLATFORM=wayland
 SDL_VIDEODRIVER=wayland
-EOF
+ENVEOF
         ;;
 
     *)

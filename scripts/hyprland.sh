@@ -10,7 +10,7 @@ sudo pacman -S --needed --noconfirm \
     waybar \
     wofi \
     dunst \
-    swww \
+    awww \
     hyprlock \
     uwsm \
     xdg-desktop-portal-hyprland \

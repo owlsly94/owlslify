@@ -181,7 +181,7 @@ $AUR -S --needed --noconfirm --ask 4 \
     starship \
     steam \
     swtpm \
-    swww \
+    awww \
     thunar \
     thunar-archive-plugin \
     thunar-media-tags-plugin \

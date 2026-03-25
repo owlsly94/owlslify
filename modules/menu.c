@@ -198,6 +198,11 @@ static void build_apps(Category *c) {
         "sudo pacman -S --needed --noconfirm mangohud lib32-mangohud");
 
     SCRIPT(c,
+        "mesa-tkg-git (bleeding edge, Chaotic-AUR)",
+        "Replace stable mesa with mesa-tkg-git. Requires Chaotic-AUR. Only for advanced users.",
+        "scripts/mesa_tkg.sh");
+
+    SCRIPT(c,
         "Wine (staging) + deps",
         "Install wine-staging, wine-mono, winetricks and all lib32 dependencies",
         "scripts/wine.sh");
@@ -412,7 +417,7 @@ static void build_desktop(Category *c) {
     /* --- Install DEs --- */
     SCRIPT(c,
         "Install Hyprland (full)",
-        "Hyprland, waybar, wofi, dunst, swww, hyprlock, pyprland, uwsm, xdg-portal",
+        "Hyprland, waybar, wofi, dunst, awww, hyprlock, pyprland, uwsm, xdg-portal",
         "scripts/hyprland.sh");
 
     SCRIPT(c,
