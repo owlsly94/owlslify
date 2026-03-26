@@ -106,7 +106,6 @@ $AUR -S --needed --noconfirm --ask 4 \
     iptables-nft \
     iwd \
     jdk21-graalvm-bin \
-    jellyfin-desktop \
     kdenlive \
     kitty \
     kvantum \
@@ -230,6 +229,10 @@ $AUR -S --needed --noconfirm --ask 4 \
     zram-generator \
     zsh \
     zsh-completions
+
+# Jellyfin Desktop via Flatpak
+echo "==> Installing Jellyfin Desktop via Flatpak..."
+flatpak install -y flathub org.jellyfin.JellyfinDesktop || echo "  (Jellyfin flatpak failed — install manually)"
 
 # AMD-only packages
 if [ "$GPU" = "amd" ]; then

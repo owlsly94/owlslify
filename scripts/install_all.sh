@@ -59,7 +59,6 @@ $AUR -S --needed --noconfirm --ask 4 \
     imv \
     iwd \
     jdk21-graalvm-bin \
-    jellyfin-desktop \
     kdenlive \
     kitty \
     kvantum \
@@ -84,7 +83,6 @@ $AUR -S --needed --noconfirm --ask 4 \
     lutris \
     man-db \
     mangohud \
-    megatools \
     mpv \
     nbtexplorer-bin \
     neovim \
@@ -170,7 +168,12 @@ $AUR -S --needed --noconfirm --ask 4 \
     zoxide \
     zram-generator \
     zsh \
-    zsh-completions
+    zsh-completions \
+    megatools
+
+echo ""
+echo "==> Installing Jellyfin Desktop via Flatpak..."
+flatpak install -y flathub org.jellyfin.JellyfinDesktop || echo "  (Jellyfin flatpak failed — install manually)"
 
 echo ""
 echo "==> Full app installation complete!"

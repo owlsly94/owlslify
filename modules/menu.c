@@ -302,8 +302,8 @@ static void build_apps(Category *c) {
 
     SCRIPT(c,
         "Jellyfin Desktop",
-        "yay -S --needed --noconfirm jellyfin-desktop",
-        "yay -S --needed --noconfirm jellyfin-desktop");
+        "flatpak install -y flathub org.jellyfin.JellyfinDesktop",
+        "flatpak install -y flathub org.jellyfin.JellyfinDesktop");
 
     /* --- Utilities --- */
     SCRIPT(c,
@@ -403,8 +403,8 @@ static void build_apps(Category *c) {
 
     SCRIPT(c,
         "Megatools (MEGA.nz CLI)",
-        "sudo pacman -S --needed --noconfirm megatools",
-        "sudo pacman -S --needed --noconfirm megatools");
+        "yay -S --needed --noconfirm megatools",
+        "yay -S --needed --noconfirm megatools");
 }
 
 /* ------------------------------------------------------------------ */
