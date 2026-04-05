@@ -103,7 +103,7 @@ $AUR -S --needed --noconfirm --ask 4 \
     hyprland \
     hyprlock \
     imv \
-    iptables-nft \
+    iptables \
     iwd \
     jdk21-graalvm-bin \
     kdenlive \
